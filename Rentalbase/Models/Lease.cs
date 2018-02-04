@@ -8,6 +8,7 @@ namespace Rentalbase.Models
     public class Lease
     {
         public int ID { get; set; }
+        public int PropertyID { get; set; }
         public DateTime StartDate { get; set; }
         public int DurationMonths { get; set; }
         public float RateMonthly { get; set; }
