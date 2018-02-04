@@ -23,11 +23,35 @@ namespace Rentalbase.DAL
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
+            modelBuilder.Entity<Lease>()
+                .HasMany(l => l.Tenants)
+                .WithMany(t => t.Leases)
+                .Map(m =>
+                {
+                    m.ToTable("LeaseInstructor");
+                    m.MapLeftKey("LeaseID");
+                    m.MapRightKey("TenantID");
+                });
+
+            modelBuilder.Entity<Lease>()
+                .HasRequired(l => l.Property)
+                .WithMany(p => p.Leases)
+                .HasForeignKey(l => l.ID)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Tenant>()
+                .HasOptional(t => t.Property)
+                .WithMany()
+                .HasForeignKey(t => t.ID)
+                .WillCascadeOnDelete(false);
+
             //modelBuilder.Entity<Lease>()
-            //    .HasMany(l => l.Tenants).WithMany(t => t.Leases)
-            //    .Map(v => v.MapLeftKey("LeaseID")
-            //    .MapRightKey("TenantID")
-            //    .ToTable("LeaseTenant"));
+            //    .HasRequired(l => l.Property)
+            //    .WithMany(p => p.Leases)
+            //    .HasForeignKey(l => l.ID)
+            //    .WillCascadeOnDelete(false);
+
+
         }
     }
 }

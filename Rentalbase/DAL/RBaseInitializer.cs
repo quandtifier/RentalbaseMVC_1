@@ -33,20 +33,20 @@ namespace Rentalbase.DAL
 
             var tenants = new List<Tenant>
             {
-                new Tenant { ID=1, PropertyID=1, Name="Thomas M Anders", Phone="2063651375", Email="tanders@gmail.com", RegistrationDate=DateTime.Parse("2010-01-01")},
-                new Tenant { ID=2, PropertyID=1, Name="Jen Anders", Phone="2063651375", Email="janders@gmail.com", RegistrationDate=DateTime.Parse("2010-01-01")},
+                new Tenant { ID=1, Name="Thomas M Anders", Phone="2063651375", Email="tanders@gmail.com", RegistrationDate=DateTime.Parse("2010-01-01")},
+                new Tenant { ID=2, Name="Jen Anders", Phone="2063651375", Email="janders@gmail.com", RegistrationDate=DateTime.Parse("2010-01-01")},
 
-                new Tenant { ID=3, PropertyID=5, Name="Jake Jakson", Phone="2830937463", Email="jj@gmail.com", RegistrationDate=DateTime.Parse("2012-02-01")},
-                new Tenant { ID=4, PropertyID=2, Name="Franky Fish", Phone="2063653789", Email="ff@gmail.com", RegistrationDate=DateTime.Parse("2012-10-01")},
+                new Tenant { ID=3, Name="Jake Jakson", Phone="2830937463", Email="jj@gmail.com", RegistrationDate=DateTime.Parse("2012-02-01")},
+                new Tenant { ID=4, Name="Franky Fish", Phone="2063653789", Email="ff@gmail.com", RegistrationDate=DateTime.Parse("2012-10-01")},
             };
             tenants.ForEach(s => context.Tenants.Add(s));
             context.SaveChanges();
 
             var leases = new List<Lease>
             {
-                new Lease { ID=1, PropertyID=1, TenantID=1, StartDate=DateTime.Parse("2010-01-01"), DurationMonths=12, RateMonthly=2000},
-                new Lease { ID=2, PropertyID=5, TenantID=3, StartDate=DateTime.Parse("2012-02-01"), DurationMonths=12, RateMonthly=2000},
-                new Lease { ID=3, PropertyID=2, TenantID=1, StartDate=DateTime.Parse("2010-10-01"), DurationMonths=12, RateMonthly=2000},
+                new Lease { ID=1, StartDate=DateTime.Parse("2010-01-01"), DurationMonths=12, RateMonthly=2000},
+                new Lease { ID=2, StartDate=DateTime.Parse("2012-02-01"), DurationMonths=12, RateMonthly=2000},
+                new Lease { ID=3, StartDate=DateTime.Parse("2010-10-01"), DurationMonths=12, RateMonthly=2000},
             };
 
             leases.ForEach(s => context.Leases.Add(s));
