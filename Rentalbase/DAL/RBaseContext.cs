@@ -36,20 +36,14 @@ namespace Rentalbase.DAL
             modelBuilder.Entity<Lease>()
                 .HasRequired(l => l.Property)
                 .WithMany(p => p.Leases)
-                .HasForeignKey(l => l.ID)
+                .HasForeignKey(l => l.PropertyID)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Tenant>()
                 .HasOptional(t => t.Property)
-                .WithMany()
-                .HasForeignKey(t => t.ID)
+                .WithMany(p => p.Tenants)
+                .HasForeignKey(t => t.PropertyID)
                 .WillCascadeOnDelete(false);
-
-            //modelBuilder.Entity<Lease>()
-            //    .HasRequired(l => l.Property)
-            //    .WithMany(p => p.Leases)
-            //    .HasForeignKey(l => l.ID)
-            //    .WillCascadeOnDelete(false);
 
 
         }

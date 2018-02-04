@@ -44,9 +44,9 @@ namespace Rentalbase.DAL
 
             var leases = new List<Lease>
             {
-                new Lease { ID=1, StartDate=DateTime.Parse("2010-01-01"), DurationMonths=12, RateMonthly=2000},
-                new Lease { ID=2, StartDate=DateTime.Parse("2012-02-01"), DurationMonths=12, RateMonthly=2000},
-                new Lease { ID=3, StartDate=DateTime.Parse("2010-10-01"), DurationMonths=12, RateMonthly=2000},
+                new Lease { ID=1, PropertyID=1, StartDate=DateTime.Parse("2010-01-01"), DurationMonths=12, RateMonthly=2000},
+                new Lease { ID=2, PropertyID=1, StartDate=DateTime.Parse("2012-02-01"), DurationMonths=12, RateMonthly=2000},
+                new Lease { ID=3, PropertyID=1, StartDate=DateTime.Parse("2010-10-01"), DurationMonths=12, RateMonthly=2000},
             };
 
             leases.ForEach(s => context.Leases.Add(s));
