@@ -8,6 +8,9 @@ namespace Rentalbase.DAL
         public RBaseConfiguration()
         {
             SetExecutionStrategy("System.Data.SqlClient", () => new SqlAzureExecutionStrategy());
+            //uncomment to simulate transient errors here
+            //DbInterception.Add(new RBaseInterceptorTransientErrors());
+            //DbInterception.Add(new RBaseInterceptorLogging());
         }
     }
 }

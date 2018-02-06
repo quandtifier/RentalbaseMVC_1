@@ -202,6 +202,8 @@
     <Compile Include="DAL\RBaseConfiguration.cs" />
     <Compile Include="DAL\RBaseContext.cs" />
     <Compile Include="DAL\RBaseInitializer.cs" />
+    <Compile Include="DAL\RBaseInterceptorLogging.cs" />
+    <Compile Include="DAL\RBaseInterceptorTransientErrors.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
