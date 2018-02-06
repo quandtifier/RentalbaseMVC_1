@@ -57,6 +57,28 @@
         <dd>
             @Html.DisplayFor(model => model.Description)
         </dd>
+        <dt>
+            @Html.DisplayNameFor(model => Model.Tenants)
+        </dt>
+        <dd>
+            <table class="="table">
+                <tr>
+                    <th>Tenant Name</th>
+                    <th>Email</th>
+                </tr>
+                @foreach (var item in Model.Tenants)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Email)
+                        </td>
+                    </tr>
+                }
+            </table>
+        </dd>
 
     </dl>
 </div>

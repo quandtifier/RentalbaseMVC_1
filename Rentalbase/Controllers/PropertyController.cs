@@ -47,15 +47,21 @@ namespace Rentalbase.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Street,City,State,Zip,Value,Description")] Property property)
+        public ActionResult Create([Bind(Include = "Street,City,State,Zip,Value,Description")] Property property)
         {
-            if (ModelState.IsValid)
+            try 
             {
-                db.Properties.Add(property);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Properties.Add(property);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-
+            catch (DataException /*dex*/)
+            {
+                ModelState.AddModelError("", "Unable to save changes");
+            }
             return View(property);
         }
 
@@ -75,27 +81,44 @@ namespace Rentalbase.Controllers
         }
 
         // POST: Property/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // The practices here implement a security best practice for overposting.
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Street,City,State,Zip,Value,Description")] Property property)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(property).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(property);
-        }
-
-        // GET: Property/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult EditPost(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var propertyToUpdate = db.Properties.Find(id);
+            if (TryUpdateModel(propertyToUpdate, "",
+                new string[] { "Street", "City", "State", "Zip", "Value", "Description"}))
+            {
+                try
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (DataException /*dex*/)
+                {
+                    // uncomment dex for error logging
+                    ModelState.AddModelError("", "Unable to save changes");
+                }
+            }
+            return View(propertyToUpdate);
+
+        }
+
+        // GET: Property/Delete/5
+        public ActionResult Delete(int? id, bool? saveChangesError=false)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Delete failed. You don't want homeless tenants do you?!?";
             }
             Property property = db.Properties.Find(id);
             if (property == null)
@@ -106,13 +129,22 @@ namespace Rentalbase.Controllers
         }
 
         // POST: Property/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // on failure this method will call the GET in order to give the user the option to try again
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
-            Property property = db.Properties.Find(id);
-            db.Properties.Remove(property);
-            db.SaveChanges();
+            try
+            {
+                Property property = db.Properties.Find(id);
+                db.Properties.Remove(property);
+                db.SaveChanges();
+            }
+            catch (DataException /*dex*/)
+            {
+                //uncomment dex for error logging
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+            }
             return RedirectToAction("Index");
         }
 
