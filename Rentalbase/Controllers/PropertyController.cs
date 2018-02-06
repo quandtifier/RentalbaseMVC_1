@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using Rentalbase.DAL;
 using Rentalbase.Models;
 
@@ -16,9 +17,55 @@ namespace Rentalbase.Controllers
         private RBaseContext db = new RBaseContext();
 
         // GET: Property
-        public ActionResult Index()
+        // initially all params are null until the user selects a filter or inputs into the searchbox
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(db.Properties.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            // gather input for whether a sort-by-col filter has been requested
+            ViewBag.IDSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.CitySortParm = sortOrder == "city" ? "city_desc" : "city";
+            
+            // everytime the user searches, display results starting at page 1
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            // provides the view with the current filter string
+            ViewBag.CurrentFilter = searchString;
+            // linq expression selects all properties in db
+            var properties = from p in db.Properties
+                             select p;
+            // if there is search form input then find which properties fit the searchString
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                properties = properties.Where(p => p.Street.Contains(searchString)
+                                            || p.City.Contains(searchString));
+            }
+            // order by sort-by-col filter
+            switch (sortOrder)
+            {
+                case "city":
+                    properties = properties.OrderBy(p => p.City);
+                    break;
+                case "city_desc":
+                    properties = properties.OrderByDescending(p => p.City);
+                    break;
+                case "id_desc":
+                    properties = properties.OrderByDescending(p => p.ID);
+                    break;
+                default:
+                    properties = properties.OrderBy(p => p.ID);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);//null-coalescing: if page is null return 1
+            return View(properties.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Property/Details/5

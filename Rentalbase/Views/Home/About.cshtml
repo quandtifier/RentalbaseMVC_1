@@ -1,7 +1,21 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿@model IEnumerable<Rentalbase.ViewModels.PropertyCityGroup>
 
-<p>Use this area to provide additional information.</p>
+@{
+    ViewBag.Title = "Area Coverage Statistics";
+}
+
+<h2>Area Coverage Statistics</h2>
+
+<table>
+    <tr>
+        <th>City</th>
+        <th>Property Count</th>
+    </tr>
+@foreach (var item in Model)
+{
+    <tr>
+        <td>@Html.DisplayFor(modelItem => item.City)</td>
+        <td>@item.PropertyCount</td>
+    </tr>
+}
+</table>
