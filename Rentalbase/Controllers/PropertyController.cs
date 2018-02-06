@@ -6,6 +6,7 @@ using System.Linq;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
+using PagedList;
 using Rentalbase.DAL;
 using Rentalbase.Models;
 
@@ -16,9 +17,55 @@ namespace Rentalbase.Controllers
         private RBaseContext db = new RBaseContext();
 
         // GET: Property
-        public ActionResult Index()
+        // initially all params are null until the user selects a filter or inputs into the searchbox
+        public ActionResult Index(string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(db.Properties.ToList());
+            ViewBag.CurrentSort = sortOrder;
+            // gather input for whether a sort-by-col filter has been requested
+            ViewBag.IDSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
+            ViewBag.CitySortParm = sortOrder == "city" ? "city_desc" : "city";
+            
+            // everytime the user searches, display results starting at page 1
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            // provides the view with the current filter string
+            ViewBag.CurrentFilter = searchString;
+            // linq expression selects all properties in db
+            var properties = from p in db.Properties
+                             select p;
+            // if there is search form input then find which properties fit the searchString
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                properties = properties.Where(p => p.Street.Contains(searchString)
+                                            || p.City.Contains(searchString));
+            }
+            // order by sort-by-col filter
+            switch (sortOrder)
+            {
+                case "city":
+                    properties = properties.OrderBy(p => p.City);
+                    break;
+                case "city_desc":
+                    properties = properties.OrderByDescending(p => p.City);
+                    break;
+                case "id_desc":
+                    properties = properties.OrderByDescending(p => p.ID);
+                    break;
+                default:
+                    properties = properties.OrderBy(p => p.ID);
+                    break;
+            }
+
+            int pageSize = 3;
+            int pageNumber = (page ?? 1);//null-coalescing: if page is null return 1
+            return View(properties.ToPagedList(pageNumber, pageSize));
         }
 
         // GET: Property/Details/5
@@ -47,15 +94,21 @@ namespace Rentalbase.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,Street,City,State,Zip,Value,Description")] Property property)
+        public ActionResult Create([Bind(Include = "Street,City,State,Zip,Value,Description")] Property property)
         {
-            if (ModelState.IsValid)
+            try 
             {
-                db.Properties.Add(property);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                if (ModelState.IsValid)
+                {
+                    db.Properties.Add(property);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
             }
-
+            catch (DataException /*dex*/)
+            {
+                ModelState.AddModelError("", "Unable to save changes");
+            }
             return View(property);
         }
 
@@ -75,27 +128,44 @@ namespace Rentalbase.Controllers
         }
 
         // POST: Property/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        // The practices here implement a security best practice for overposting.
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,Street,City,State,Zip,Value,Description")] Property property)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(property).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(property);
-        }
-
-        // GET: Property/Delete/5
-        public ActionResult Delete(int? id)
+        public ActionResult EditPost(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            var propertyToUpdate = db.Properties.Find(id);
+            if (TryUpdateModel(propertyToUpdate, "",
+                new string[] { "Street", "City", "State", "Zip", "Value", "Description"}))
+            {
+                try
+                {
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (DataException /*dex*/)
+                {
+                    // uncomment dex for error logging
+                    ModelState.AddModelError("", "Unable to save changes");
+                }
+            }
+            return View(propertyToUpdate);
+
+        }
+
+        // GET: Property/Delete/5
+        public ActionResult Delete(int? id, bool? saveChangesError=false)
+        {
+            if (id == null)
+            {
+                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+            }
+            if (saveChangesError.GetValueOrDefault())
+            {
+                ViewBag.ErrorMessage = "Delete failed. You don't want homeless tenants do you?!?";
             }
             Property property = db.Properties.Find(id);
             if (property == null)
@@ -106,13 +176,22 @@ namespace Rentalbase.Controllers
         }
 
         // POST: Property/Delete/5
-        [HttpPost, ActionName("Delete")]
+        // on failure this method will call the GET in order to give the user the option to try again
+        [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
-            Property property = db.Properties.Find(id);
-            db.Properties.Remove(property);
-            db.SaveChanges();
+            try
+            {
+                Property property = db.Properties.Find(id);
+                db.Properties.Remove(property);
+                db.SaveChanges();
+            }
+            catch (DataException /*dex*/)
+            {
+                //uncomment dex for error logging
+                return RedirectToAction("Delete", new { id = id, saveChangesError = true });
+            }
             return RedirectToAction("Index");
         }
 
