@@ -9,6 +9,7 @@ using System.Web.Mvc;
 using PagedList;
 using Rentalbase.DAL;
 using Rentalbase.Models;
+using System.Data.Entity.Infrastructure;
 
 namespace Rentalbase.Controllers
 {
@@ -105,7 +106,7 @@ namespace Rentalbase.Controllers
                     return RedirectToAction("Index");
                 }
             }
-            catch (DataException /*dex*/)
+            catch (RetryLimitExceededException /*dex*/)
             {
                 ModelState.AddModelError("", "Unable to save changes");
             }
@@ -146,7 +147,7 @@ namespace Rentalbase.Controllers
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                catch (DataException /*dex*/)
+                catch (RetryLimitExceededException /*dex*/)
                 {
                     // uncomment dex for error logging
                     ModelState.AddModelError("", "Unable to save changes");
@@ -187,7 +188,7 @@ namespace Rentalbase.Controllers
                 db.Properties.Remove(property);
                 db.SaveChanges();
             }
-            catch (DataException /*dex*/)
+            catch (RetryLimitExceededException /*dex*/)
             {
                 //uncomment dex for error logging
                 return RedirectToAction("Delete", new { id = id, saveChangesError = true });
