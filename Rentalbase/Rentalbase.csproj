@@ -199,11 +199,16 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
+    <Compile Include="DAL\RBaseConfiguration.cs" />
     <Compile Include="DAL\RBaseContext.cs" />
     <Compile Include="DAL\RBaseInitializer.cs" />
+    <Compile Include="DAL\RBaseInterceptorLogging.cs" />
+    <Compile Include="DAL\RBaseInterceptorTransientErrors.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\Logger.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Lease.cs" />
