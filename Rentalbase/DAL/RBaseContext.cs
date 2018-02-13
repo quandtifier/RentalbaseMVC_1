@@ -15,6 +15,7 @@ namespace Rentalbase.DAL
         }
 
         public DbSet<Property> Properties { get; set; }
+        public DbSet<PropertyType> PropertyTypes { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<Lease> Leases { get; set; }
 

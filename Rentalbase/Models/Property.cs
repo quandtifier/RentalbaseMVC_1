@@ -16,6 +16,7 @@ namespace Rentalbase.Models
         public int Value { get; set; }
         public string Description { get; set; }
 
+        public virtual PropertyType Type { get; set; }
         public virtual ICollection<Tenant> Tenants { get; set; }
         public virtual ICollection<Lease> Leases { get; set; }
     }
