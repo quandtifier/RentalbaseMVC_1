@@ -17,6 +17,7 @@ namespace Rentalbase.DAL
         public DbSet<Property> Properties { get; set; }
         public DbSet<PropertyType> PropertyTypes { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
+        public DbSet<Landlord> Landlords { get; set; }
         public DbSet<Lease> Leases { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
         public DbSet<InvoiceType> InvoiceTypes { get; set; }
@@ -48,6 +49,11 @@ namespace Rentalbase.DAL
                 .HasForeignKey(t => t.PropertyID)
                 .WillCascadeOnDelete(false);
 
+            modelBuilder.Entity<Property>()
+                .HasRequired(p => p.Landlord)
+                .WithMany(l => l.Properties)
+                .HasForeignKey(p => p.LandlordID)
+                .WillCascadeOnDelete(false);
 
         }
     }

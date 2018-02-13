@@ -11,6 +11,14 @@ namespace Rentalbase.DAL
     {
         protected override void Seed(RBaseContext context)
         {
+            var landlords = new List<Landlord>
+            {
+                new Landlord {Name="Joshua Lansang", Street="332 Lake Forest Drive", City="Seattle", State="WA", Zip=11111, Phone="1111111111", Email="jlansang@rbase.com"},
+                new Landlord {Name="Michael Quandt", Street="74 Lookout Ave.", City="Silverlake", State="WA", Zip=22222, Phone="2222222222", Email="mquandt@rbase.com"},
+                new Landlord {Name="Alex Reid", Street="834 Ashley St.", City="Malone", State="WA", Zip=33333, Phone="3333333333", Email="areid@rbase.com"},
+            };
+            landlords.ForEach(s => context.Landlords.Add(s));
+            context.SaveChanges();
 
             var propTypes = new List<PropertyType>
             {
@@ -23,10 +31,9 @@ namespace Rentalbase.DAL
 
             var properties = new List<Property>
             {
-                new Property { Street="38 Galvin Road", City="Seattle", State="WA", Zip=98181, Value=5000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "Apartment")},
-                new Property { Street="61 North Mulbary", City="Seattle", State="WA", Zip=98182, Value=10000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "Apartment")},
-                new Property { Street="856 South Pl", City="Seattle", State="WA", Zip=98183, Value=20000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "Industrial")},
-                new Property { Street="4738 West Dr.", City="Seattle", State="WA", Zip=98184, Value=40000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "SFH")},
+                new Property { LandlordID=1, Street="38 Galvin Road", City="Seattle", State="WA", Zip=98181, Value=5000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "Apartment")},
+                new Property { LandlordID=2, Street="856 South Pl", City="Seattle", State="WA", Zip=98183, Value=20000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "Industrial")},
+                new Property { LandlordID=3, Street="4738 West Dr.", City="Seattle", State="WA", Zip=98184, Value=40000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "SFH")},
 
                 new Property { Street="40 Sample Dr.", City="Tacoma", State="WA", Zip=98321, Value=99000, Description="Need something here"},
                 new Property { Street="50 Sample Dr.", City="Tacoma", State="WA", Zip=98322, Value=100000, Description="Need something here"},
@@ -52,6 +59,7 @@ namespace Rentalbase.DAL
             };
             tenants.ForEach(s => context.Tenants.Add(s));
             context.SaveChanges();
+
 
             var leases = new List<Lease>
             {

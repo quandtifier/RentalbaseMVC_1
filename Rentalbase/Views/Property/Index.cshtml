@@ -34,7 +34,7 @@
         <th>State</th>
         <th>Zip</th>
         <th>Value</th>
-        <th>Description</th>
+        <th>Manager Name</th>
         <th>Type</th>
         <th></th>
     </tr>
@@ -58,7 +58,7 @@
             @Html.DisplayFor(modelItem => item.Value)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Description)
+            @Html.DisplayFor(modelItem => item.Landlord.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.PropertyType.Type)
