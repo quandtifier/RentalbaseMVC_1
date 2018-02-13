@@ -211,6 +211,8 @@
     <Compile Include="Logging\Logger.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Invoice.cs" />
+    <Compile Include="Models\InvoiceType.cs" />
     <Compile Include="Models\Lease.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Property.cs" />

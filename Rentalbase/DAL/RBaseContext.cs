@@ -18,6 +18,8 @@ namespace Rentalbase.DAL
         public DbSet<PropertyType> PropertyTypes { get; set; }
         public DbSet<Tenant> Tenants { get; set; }
         public DbSet<Lease> Leases { get; set; }
+        public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<InvoiceType> InvoiceTypes { get; set; }
 
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)

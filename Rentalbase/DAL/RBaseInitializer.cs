@@ -23,10 +23,10 @@ namespace Rentalbase.DAL
 
             var properties = new List<Property>
             {
-                new Property { Street="38 Galvin Road", City="Seattle", State="WA", Zip=98181, Value=5000, Description="Need something here", Type = propTypes.SingleOrDefault(t => t.Type == "Apartment")},
-                new Property { Street="61 North Mulbary", City="Seattle", State="WA", Zip=98182, Value=10000, Description="Need something here", Type = propTypes.SingleOrDefault(t => t.Type == "Apartment")},
-                new Property { Street="856 South Pl", City="Seattle", State="WA", Zip=98183, Value=20000, Description="Need something here", Type = propTypes.SingleOrDefault(t => t.Type == "Industrial")},
-                new Property { Street="4738 West Dr.", City="Seattle", State="WA", Zip=98184, Value=40000, Description="Need something here", Type = propTypes.SingleOrDefault(t => t.Type == "SFH")},
+                new Property { Street="38 Galvin Road", City="Seattle", State="WA", Zip=98181, Value=5000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "Apartment")},
+                new Property { Street="61 North Mulbary", City="Seattle", State="WA", Zip=98182, Value=10000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "Apartment")},
+                new Property { Street="856 South Pl", City="Seattle", State="WA", Zip=98183, Value=20000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "Industrial")},
+                new Property { Street="4738 West Dr.", City="Seattle", State="WA", Zip=98184, Value=40000, Description="Need something here", PropertyType = propTypes.SingleOrDefault(t => t.Type == "SFH")},
 
                 new Property { Street="40 Sample Dr.", City="Tacoma", State="WA", Zip=98321, Value=99000, Description="Need something here"},
                 new Property { Street="50 Sample Dr.", City="Tacoma", State="WA", Zip=98322, Value=100000, Description="Need something here"},
@@ -61,6 +61,33 @@ namespace Rentalbase.DAL
             };
 
             leases.ForEach(s => context.Leases.Add(s));
+            context.SaveChanges();
+
+            var invTypes = new List<InvoiceType>
+            {
+                new InvoiceType {Type="MAINTENANCE"},
+                new InvoiceType {Type="RENT"},
+                new InvoiceType {Type="DAMAGE"},
+                new InvoiceType {Type="DEPOSIT"},
+            };
+            invTypes.ForEach(s => context.InvoiceTypes.Add(s));
+            context.SaveChanges();
+
+            var invoices = new List<Invoice>
+            {
+                new Invoice {PropertyID=1, DateIssued=DateTime.Parse("2010-01-23"), DatePaid=DateTime.Parse("2010-02-02"), Description="Rent Payment", Cost=2000.00M, InvoiceType = invTypes.SingleOrDefault(t => t.Type == "RENT") },
+                new Invoice {PropertyID=1, DateIssued=DateTime.Parse("2010-02-23"), DatePaid=DateTime.Parse("2010-03-02"), Description="Rent Payment", Cost=2000.00M, InvoiceType = invTypes.SingleOrDefault(t => t.Type == "RENT") },
+                new Invoice {PropertyID=1, DateIssued=DateTime.Parse("2010-03-23"), DatePaid=DateTime.Parse("2010-04-02"), Description="Rent Payment", Cost=2000.00M, InvoiceType = invTypes.SingleOrDefault(t => t.Type == "RENT") },
+                new Invoice {PropertyID=1, DateIssued=DateTime.Parse("2010-04-23"), DatePaid=DateTime.Parse("2010-05-02"), Description="Rent Payment", Cost=2000.00M, InvoiceType = invTypes.SingleOrDefault(t => t.Type == "RENT") },
+
+                new Invoice {PropertyID=2, DateIssued=DateTime.Parse("2012-02-23"), DatePaid=DateTime.Parse("2012-03-02"), Description="Rent Payment", Cost=2000.00M, InvoiceType = invTypes.SingleOrDefault(t => t.Type == "RENT") },
+                new Invoice {PropertyID=2, DateIssued=DateTime.Parse("2012-03-23"), DatePaid=DateTime.Parse("2012-04-02"), Description="Rent Payment", Cost=2000.00M, InvoiceType = invTypes.SingleOrDefault(t => t.Type == "RENT") },
+                new Invoice {PropertyID=2, DateIssued=DateTime.Parse("2012-04-23"), DatePaid=DateTime.Parse("2012-05-02"), Description="Rent Payment", Cost=2000.00M, InvoiceType = invTypes.SingleOrDefault(t => t.Type == "RENT") },
+                new Invoice {PropertyID=2, DateIssued=DateTime.Parse("2012-05-23"), DatePaid=DateTime.Parse("2012-06-02"), Description="Rent Payment", Cost=2000.00M, InvoiceType = invTypes.SingleOrDefault(t => t.Type == "RENT") },
+
+                new Invoice { ID=10, PropertyID=3, DateIssued=DateTime.Parse("2017-05-23"), DatePaid=DateTime.Parse("2018-01-02"), Description="Rent Payment", Cost=2000.00M, InvoiceType = invTypes.SingleOrDefault(t => t.Type == "DAMAGE") },
+            };
+            invoices.ForEach(s => context.Invoices.Add(s));
             context.SaveChanges();
 
             //AddOrUpdateTenant(context, 1, "Thomas M Anders");
