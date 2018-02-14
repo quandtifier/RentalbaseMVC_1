@@ -200,6 +200,7 @@
     <Compile Include="Controllers\LeaseController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
+    <Compile Include="Controllers\TenantController.cs" />
     <Compile Include="DAL\RBaseConfiguration.cs" />
     <Compile Include="DAL\RBaseContext.cs" />
     <Compile Include="DAL\RBaseInitializer.cs" />
@@ -226,9 +227,9 @@
     <Compile Include="Migrations\201802140516270_LeaseTenant.Designer.cs">
       <DependentUpon>201802140516270_LeaseTenant.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201802140551460_ComplexDataModel.cs" />
-    <Compile Include="Migrations\201802140551460_ComplexDataModel.Designer.cs">
-      <DependentUpon>201802140551460_ComplexDataModel.cs</DependentUpon>
+    <Compile Include="Migrations\201802140709576_TenantIndex.cs" />
+    <Compile Include="Migrations\201802140709576_TenantIndex.Designer.cs">
+      <DependentUpon>201802140709576_TenantIndex.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -244,6 +245,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\PropertyCityGroup.cs" />
+    <Compile Include="ViewModels\TenantIndexData.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -313,6 +315,11 @@
     <Content Include="Views\Lease\Details.cshtml" />
     <Content Include="Views\Lease\Edit.cshtml" />
     <Content Include="Views\Lease\Index.cshtml" />
+    <Content Include="Views\Tenant\Create.cshtml" />
+    <Content Include="Views\Tenant\Delete.cshtml" />
+    <Content Include="Views\Tenant\Details.cshtml" />
+    <Content Include="Views\Tenant\Edit.cshtml" />
+    <Content Include="Views\Tenant\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -343,8 +350,8 @@
     <EmbeddedResource Include="Migrations\201802140516270_LeaseTenant.resx">
       <DependentUpon>201802140516270_LeaseTenant.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802140551460_ComplexDataModel.resx">
-      <DependentUpon>201802140551460_ComplexDataModel.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201802140709576_TenantIndex.resx">
+      <DependentUpon>201802140709576_TenantIndex.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
