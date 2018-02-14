@@ -197,6 +197,7 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LeaseController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PropertyController.cs" />
     <Compile Include="DAL\RBaseConfiguration.cs" />
@@ -224,6 +225,10 @@
     <Compile Include="Migrations\201802140516270_LeaseTenant.cs" />
     <Compile Include="Migrations\201802140516270_LeaseTenant.Designer.cs">
       <DependentUpon>201802140516270_LeaseTenant.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802140551460_ComplexDataModel.cs" />
+    <Compile Include="Migrations\201802140551460_ComplexDataModel.Designer.cs">
+      <DependentUpon>201802140551460_ComplexDataModel.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -303,6 +308,11 @@
     <Content Include="Views\Property\Details.cshtml" />
     <Content Include="Views\Property\Edit.cshtml" />
     <Content Include="Views\Property\Index.cshtml" />
+    <Content Include="Views\Lease\Create.cshtml" />
+    <Content Include="Views\Lease\Delete.cshtml" />
+    <Content Include="Views\Lease\Details.cshtml" />
+    <Content Include="Views\Lease\Edit.cshtml" />
+    <Content Include="Views\Lease\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -332,6 +342,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201802140516270_LeaseTenant.resx">
       <DependentUpon>201802140516270_LeaseTenant.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802140551460_ComplexDataModel.resx">
+      <DependentUpon>201802140551460_ComplexDataModel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
