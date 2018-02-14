@@ -213,6 +213,18 @@
     <Compile Include="Migrations\201802140321449_InitialCreate.Designer.cs">
       <DependentUpon>201802140321449_InitialCreate.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201802140502537_PropertyAnnotations.cs" />
+    <Compile Include="Migrations\201802140502537_PropertyAnnotations.Designer.cs">
+      <DependentUpon>201802140502537_PropertyAnnotations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802140508519_TenantAnnotations.cs" />
+    <Compile Include="Migrations\201802140508519_TenantAnnotations.Designer.cs">
+      <DependentUpon>201802140508519_TenantAnnotations.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802140516270_LeaseTenant.cs" />
+    <Compile Include="Migrations\201802140516270_LeaseTenant.Designer.cs">
+      <DependentUpon>201802140516270_LeaseTenant.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -311,6 +323,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201802140321449_InitialCreate.resx">
       <DependentUpon>201802140321449_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802140502537_PropertyAnnotations.resx">
+      <DependentUpon>201802140502537_PropertyAnnotations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802140508519_TenantAnnotations.resx">
+      <DependentUpon>201802140508519_TenantAnnotations.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802140516270_LeaseTenant.resx">
+      <DependentUpon>201802140516270_LeaseTenant.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

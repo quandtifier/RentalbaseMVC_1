@@ -32,7 +32,7 @@ namespace Rentalbase.DAL
                 .WithMany(t => t.Leases)
                 .Map(m =>
                 {
-                    m.ToTable("LeaseInstructor");
+                    m.ToTable("LeaseTenant");
                     m.MapLeftKey("LeaseID");
                     m.MapRightKey("TenantID");
                 });
