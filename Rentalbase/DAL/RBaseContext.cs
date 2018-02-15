@@ -27,15 +27,23 @@ namespace Rentalbase.DAL
         {
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
+
             modelBuilder.Entity<Lease>()
                 .HasMany(l => l.Tenants)
                 .WithMany(t => t.Leases)
-                .Map(m =>
-                {
-                    m.ToTable("LeaseTenant");
-                    m.MapLeftKey("LeaseID");
-                    m.MapRightKey("TenantID");
-                });
+                .Map(m => m.MapLeftKey("LeaseID")
+                        .MapRightKey("TenantID")
+                        .ToTable("LeaseTenant"));
+
+            //modelBuilder.Entity<Lease>()
+            //    .HasMany(l => l.Tenants)
+            //    .WithMany(t => t.Leases)
+            //    .Map(m =>
+            //    {
+            //        m.ToTable("LeaseTenant");
+            //        m.MapLeftKey("LeaseID");
+            //        m.MapRightKey("TenantID");
+            //    });
 
             modelBuilder.Entity<Lease>()
                 .HasRequired(l => l.Property)

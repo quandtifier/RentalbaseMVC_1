@@ -120,7 +120,7 @@ namespace Rentalbase.Migrations
         void AddOrUpdateTenant(RBaseContext context, int leaseID, string tenantEmail)
         {
             var ls = context.Leases.SingleOrDefault(l => l.ID == leaseID);
-            var ten = context.Tenants.SingleOrDefault(t => t.Email == tenantEmail);
+            var ten = ls.Tenants.SingleOrDefault(t => t.Email == tenantEmail);
             if (ten == null)
                 ls.Tenants.Add(context.Tenants.Single(t => t.Email == tenantEmail));
         }
